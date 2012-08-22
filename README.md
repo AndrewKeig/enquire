@@ -72,7 +72,7 @@ when we request some_module overriding environment parameter as "development"
 
      var module = enquire('../test/doubles', "development");
 
-then some_module-development
+then return some_module-development
 
      module = some_module-development
 
