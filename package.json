@@ -1,17 +1,14 @@
-{ "name" : "session-konphyg"
-, "description" : "Configuring session stores for the node.js express framework; session-konphyg uses konphyg to provide cascading configuration to support multiple environments"
-, "tags" : ["configuration", "session"]
-, "version" : "0.0.3"
+{ "name" : "enquire"
+, "description" : "an environment based replacement for node.js require"
+, "tags" : ["configuration"]
+, "version" : "0.0.0"
 , "author" : "Andrew Keig <andrew.keig@gmail.com>"
 , "repository" :
   { "type" : "git"
-  , "url" : "https://github.com/AndrewKeig/session-konphyg.git"
+  , "url" : "https://github.com/AndrewKeig/enquire.git"
   }
 , "bugs" :
-  { "url" : "https://github.com/AndrewKeig/session-konphyg/issues" }
+  { "url" : "https://github.com/AndrewKeig/enquire/issues" }
 , "engines" : ["node >= 0.4.0"]
-, "devDependencies": {
-    "konphyg": "1.0.5"
-}
 , "main" : "./index"
 }

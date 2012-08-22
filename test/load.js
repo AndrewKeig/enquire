@@ -69,5 +69,13 @@ describe('enquire.load()', function(){
     })
 
 
+    describe('when valid module request is provided for development environment as a parameter', function(){
+        it('should return module ', function(){
+            process.env.NODE_ENV = null;
+            var module = enquire('../test/doubles', "development");
+            assert.notEqual(module, null);
+            assert.notEqual(module(), 'true');
+        })
+    })
 })
 
