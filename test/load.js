@@ -10,7 +10,7 @@ describe('enquire.load()', function(){
             var recorded_error;
 
             try {
-                enquire('');
+                enquire.load('');
             } catch(err) {
                 recorded_error = err;
             }
@@ -25,7 +25,7 @@ describe('enquire.load()', function(){
             var recorded_error;
 
             try {
-                enquire('./test/doubles');
+                enquire.load('./test/doubles');
             } catch(err) {
                 recorded_error = err;
             }
@@ -37,18 +37,18 @@ describe('enquire.load()', function(){
     describe('when valid module request is provided with empty environment', function(){
         it('should return module ', function(){
             process.env.NODE_ENV = null;
-            var module = enquire('../test/doubles');
+            var module = enquire.load('../test/doubles');
             assert.notEqual(module, null);
-            assert.notEqual(module(), 'true');
+            assert.equal(module(), true);
         })
     })
 
     describe('when valid module request is provided for development environment', function(){
         it('should return module ', function(){
             process.env.NODE_ENV = "development";
-            var module = enquire('../test/doubles');
+            var module = enquire.load('../test/doubles');
             assert.notEqual(module, null);
-            assert.notEqual(module(), 'true');
+            assert.equal(module(), true);
         })
     })
 
@@ -59,7 +59,7 @@ describe('enquire.load()', function(){
             var recorded_error;
 
             try {
-                enquire('../test/doubles');
+                enquire.load('../test/doubles');
             } catch(err) {
                 recorded_error = err;
             }
@@ -72,9 +72,20 @@ describe('enquire.load()', function(){
     describe('when valid module request is provided for development environment as a parameter', function(){
         it('should return module ', function(){
             process.env.NODE_ENV = null;
-            var module = enquire('../test/doubles', "development");
+            var module = enquire.load('../test/doubles', "development");
             assert.notEqual(module, null);
-            assert.notEqual(module(), 'true');
+            assert.equal(module(), true);
+        })
+    })
+
+    describe('when valid module request is provided for uat environment with registered path', function(){
+        it('should return module ', function(){
+            enquire.register('uat', '../test/double-lib/');
+            var env_path = enquire.paths['uat'];
+            process.env.NODE_ENV = 'uat';
+            var module = enquire.load('doubles');
+            assert.notEqual(module, null);
+            assert.equal(module(), true);
         })
     })
 })

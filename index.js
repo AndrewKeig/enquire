@@ -7,11 +7,18 @@
 /* dependencies */
 var path = require('path');
 var lib = require(path.join(__dirname, './lib'));
+var paths = [];
 
 /* library version */
 exports.version = '0.0.1';
 
 /* api */
-module.exports = function (module_request) {
-    return lib.load(module_request);
+exports.paths = paths;
+
+exports.register = function (environment, path) {
+    return lib.register(environment, path, paths);
+}
+
+exports.load = function (module_request, environment) {
+    return lib.load(module_request, environment, paths);
 }

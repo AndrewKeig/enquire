@@ -1,7 +1,7 @@
 { "name" : "enquire"
-, "description" : "an environment based replacement for node.js require"
-, "tags" : ["configuration"]
-, "version" : "0.0.0"
+, "description" : "an environment based require for node.js; enquire abstracts the creation of modules in order to create modules for alternative environments"
+, "tags" : ["configuration", "testing"]
+, "version" : "0.0.1"
 , "author" : "Andrew Keig <andrew.keig@gmail.com>"
 , "repository" :
   { "type" : "git"
