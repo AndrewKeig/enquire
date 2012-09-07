@@ -4,6 +4,9 @@ var lib = require(path.join(__dirname, '../lib'));
 var enquire = require('../');
 
 describe('enquire.load()', function(){
+
+    process.env.NODE_ENV = 'uat';
+
     describe('when no module request is provided', function(){
         it('should throw error ', function(){
             var expected = new Error("Please provide a module request")
