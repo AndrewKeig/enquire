@@ -15,41 +15,69 @@
 
 ## Why would you want to do this
 
-   **Testing.**
-
    consider a module you have written that has some dependecy on an io bound resource. In order to unit test this module you would ideally like to abstract away the call to the io bound resource.
 
-   lots of OO frameworks out there use a technique called dependency injection in order to solve this decoupling problem; generally refered to as Inversion of Control.  Other patterns which can be used to solve the problen are generally frowned upon such as Service Locator and the Factory pattern.
-  
-   node.js does not support dependency injection; so an alternative solution is required.  There are modules in the community which attempt to solve this problem; but I was not happy with any I researched.
- 
+   using enquire to import dependencies allows you to do some other interesting things:
+
+ 	- provide alternative implementations to your modules when in development vs uat vs production
+		- simplify your application when in development  
+    - stub modules in a unit testing environment
+    - the same test can be run as a unit or integration test by simply setting process.NODE_ENV to either for example 'unit' or 'integration'
+    	- dry up tests 
+        - run unit tests with stubbed modules that are io bound
+        - run integration tests with for example an in memory store such as nstore or sqllite for io bound modules
  
 ## API
 
-	. var module = enquire.load('some-module');
-     	load an env specific implementation of a module based on the current state of process.env.NODE_ENV
+   - load an environment specific implementation of a module based on the current state of process.env.NODE_ENV
 
-    . enquire.paths
-		returns a list of registered paths
+		var some-module = enquire.load('/some-module');
 
-    . enquire.register('environment', 'path');  
-		register an environment/path pair; this overidde allows you to store alternative implementations in different locations; by default enquire will simply look in the path provided when you perform a load
+   - register an environment/path pair; this overidde allows you to store alternative implementations in different locations.
+
+		enquire.register('uat', 'path-to-uat-modules');  
 
 
+   by default enquire supports a convention whereby alternative implementations are located under the folder of the default implementation. For example:
+
+		/some-module/
+		/some-module/some-module-unit/
+  		/some-module/some-module-integration/
+		/some-module/some-module-uat/
+	
+		
 
 ## Examples for registering environment/paths
 
-	given I register the following environment/paths
+## Example 1;
 
-    	enquire.register('unit-testing', '/path-to-unit-testing-implementation/');  
+given I do not register any environment/path and i have an alternative implementation to a module under
+	
+		path-to-some-module/some-module/unit-testing-implementation/
 
-	when i request a module in a unit testing environment
+when i request a module in a unit testing environment
 
 		process.env.NODE_ENV = 'unit-testing';
 		
 		var module = enquire.load("some-module");
 
-	then the module requested is located in this location
+then the module requested should be located in this location
+
+		/path-to-some-module/unit-testing-implementation-some-module
+
+## Example 2;
+			
+given I register the following environment/path
+
+    	enquire.register('unit-testing', '/path-to-unit-testing-implementation/');  
+
+when i request a module in a unit testing environment
+
+		process.env.NODE_ENV = 'unit-testing';
+		
+		var module = enquire.load("some-module");
+
+then the module requested should be located in this location
 
 		/path-to-unit-testing-implementation/some-module
 		
@@ -58,91 +86,41 @@
 
 ## Examples for loading modules
 
-   given the following module exists 
-    
-    /some-module/
+## Example 1;
 
-   when we request the module with enquire
+given process.env.NODE_ENV is in its default state 
+    
+	process.env.NODE_ENV = 'development'
+
+when we request the module with enquire
  
     var module = enquire.load('some-module');
 
-   we get the following implementation of the module
+then return some_module
    
- 
 
-  when default NODE_ENV 
+## Example 2
 
-    /some-module/
+given process.env.NODE_ENV is set to 'uat'
 
-   when process.env.NODE_ENV = "unit-testing";    
+	process.env.NODE_ENV = 'uat'
 
-    /some-module-unit-testig/
-
-   when process.env.NODE_ENV = "development";    
-
-    /some-module-developments/
-
-
-
-## Example 1; 
-
-with module request, default NODE_ENV
-
-
-    given the following module structure
-
-    /some_module/
-        index.js
-    /some_module-development/
-        index.js
-
-     when we request some_module with default NODE_ENV
+when we request some_module
 
      var module = enquire.load('some_module');
 
-     then return some_module
-
-     module = some_module
-
-
-##Example 2
-
-with module request, development NODE_ENV
-
-
-given the following module structure
-
-    /some_module/
-        index.js
-    /some_module-development/
-        index.js
-
-when we request some_module with NODE_ENV set to "development"
-
-     process.env.NODE_ENV = "development";
-     var module = enquire.load('some_module');
-
-then return some_module-development
-
-     module = some_module-development
+then return some_module-uat
 
 
 ## Example 3
 
-with module request, environment parameter override
+given process.env.NODE_ENV is in its default state 
 
-    given the following module structure
+    process.env.NODE_ENV = 'development'
 
-     /some-module/
-         index.js
-     /some-module-development/
-         index.js
+when we request some_module overriding environment parameter as "uat"
 
-    when we request some_module overriding environment parameter as "development"
+     var module = enquire.load('../test/doubles', "uat");
 
-     var module = enquire.load('../test/doubles', "development");
-
-    then return some-module-development
-
-     module = some-module-development
+then return some-module-uat
 
