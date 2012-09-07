@@ -20,7 +20,7 @@
 
   - provide alternative implementations to your modules when in different environments
    - stub io bound modules in a unit testing environment
-   - run integration tests against alternative implementations of for example a data store
+   - run integration tests against alternative implementations; for example alternative data stores
    - simplify development and debugging by providing stubbed out io bound modules
   - re-use tests by running the same test as a unit or integration test by simply setting process.env.NODE_ENV to
     for example 'unit' or 'integration'
@@ -51,9 +51,11 @@
 
 ## Example 1;
 
-given I do not register any environment/path and i have an alternative implementation to a module under
-	
-		path-to-some-module/some-module/unit-testing-implementation/
+given I do not register any environment/path and I have an alternative implementation
+to a module with the following folder structure
+
+	    /path/some-module/
+		/path/some-module-unit-testing/
 
 when i request a module in a unit testing environment
 
@@ -63,13 +65,14 @@ when i request a module in a unit testing environment
 
 then the module requested should be located in this location
 
-		/path-to-some-module/unit-testing-implementation-some-module
+		/path/some-module-unit-testing/
+
 
 ## Example 2;
 			
 given I register the following environment/path
 
-    	enquire.register('unit-testing', '/path-to-unit-testing-implementation/');  
+    	enquire.register('unit-testing', '/path/');
 
 when i request a module in a unit testing environment
 
@@ -79,18 +82,15 @@ when i request a module in a unit testing environment
 
 then the module requested should be located in this location
 
-		/path-to-unit-testing-implementation/some-module
+		/path/some-module-unit-testing/
 		
 		
-
 
 ## Examples for loading modules
 
 ## Example 1;
 
-given process.env.NODE_ENV is in its default state 
-    
-	process.env.NODE_ENV = 'development'
+given process.env.NODE_ENV is in its default state
 
 when we request the module with enquire
  
@@ -116,12 +116,9 @@ then return some_module-uat
 
 given process.env.NODE_ENV is in its default state 
 
-    process.env.NODE_ENV = 'development'
-
 when we request some_module overriding environment parameter as "uat"
 
      var module = enquire.load('../test/doubles', "uat");
 
 then return some-module-uat
-
 
