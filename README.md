@@ -1,4 +1,4 @@
-# enquire
+# enquire.js
 
    provides a simple convention based solution to overriding dependencies in node.js.
 
@@ -6,7 +6,7 @@
    environment specific implementations of a module.
 
    using nodes core process.env.NODE_ENV environment variable we can setup alternative implementations for
-   unit/integration testing; development, uat and production environments.
+   unit/integration testing; development, uat and production environments etc..
 
 
 ## Installation
@@ -14,34 +14,29 @@
     $ npm install enquire
 
 
+## Features
 
-## Why would you want to do this
+   using enquire to import dependencies allows you to do some interesting things:
 
-   consider a module you have written that has some dependecy on an io bound resource.
-   In order to unit test this module you would ideally like to abstract away the call to the io bound resource.
+  - provide alternative implementations to your modules when in different environments
+   - stub io bound modules in a unit testing environment
+   - run integration tests against alternative implementations of for example a data store
+   - simplify development and debugging by providing stubbed out io bound modules
+  - re-use tests by running the same test as a unit or integration test by simply setting process.env.NODE_ENV to
+    for example 'unit' or 'integration'
 
-   using enquire to import dependencies allows you to do some other interesting things:
 
-  - provide alternative implementations to your modules when in development vs uat vs production
-   - simplify your application when in development
-  - stub modules in a unit testing environment
-  - the same test can be run as a unit or integration test by simply setting process.env.NODE_ENV to
-    either for example 'unit' or 'integration'
-   - dry up tests
-   - run unit tests with stubbed modules that are io bound
-   - run integration tests with for example an in memory store such as nstore or sqllite for io bound modules
- 
+
 ## API
 
    - load an environment specific implementation of a module based on the current state of process.env.NODE_ENV
 
 		var some-module = enquire.load('/some-module');
 
-   - register an environment/path pair; this overidde allows you to store alternative implementations in
+   - register an environment/path pair; this override allows you to store alternative implementations in
      different locations.
 
 		enquire.register('uat', 'path-to-uat-modules');  
-
 
      by default enquire supports a convention whereby alternative implementations are located under the folder
      of the default implementation. For example:
@@ -50,8 +45,7 @@
 		/some-module-unit/
 		/some-module-integration/
         /some-module-uat/
-	
-		
+
 
 ## Examples for registering environment/paths
 
@@ -129,4 +123,5 @@ when we request some_module overriding environment parameter as "uat"
      var module = enquire.load('../test/doubles', "uat");
 
 then return some-module-uat
+
 
