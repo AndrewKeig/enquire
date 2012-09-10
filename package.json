@@ -1,14 +1,23 @@
-{ "name" : "enquire"
-, "description" : "an environment based require for node.js; enquire abstracts the creation of modules in order to create modules for alternative environments"
-, "tags" : ["configuration", "testing"]
-, "version" : "0.0.1"
-, "author" : "Andrew Keig <andrew.keig@gmail.com>"
-, "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/AndrewKeig/enquire.git"
-  }
-, "bugs" :
-  { "url" : "https://github.com/AndrewKeig/enquire/issues" }
-, "engines" : ["node >= 0.4.0"]
-, "main" : "./index"
+{
+      "name" : "enquire"
+    , "description" : "provides a simple convention based solution to overriding dependencies in node.js"
+    , "tags" : ["configuration", "testing", "modules", "dependencies"]
+    , "version" : "0.0.2"
+    , "author" : "Andrew Keig <andrew.keig@gmail.com>"
+    , "repository" :
+      { "type" : "git"
+      , "url" : "https://github.com/AndrewKeig/enquire.git"
+      }
+    , "bugs" :
+      { "url" : "https://github.com/AndrewKeig/enquire/issues" }
+    , "engines" : ["node >= 0.4.0"]
+    , "main" : "./index"
+        , "directories" : {
+        "example" : "examples",
+        "test" : "test"
+    },
+    "devDependencies" : {
+        "nstore" : "*",
+        "mocha" : "*"
+    }
 }
