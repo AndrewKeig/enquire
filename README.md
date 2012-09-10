@@ -20,7 +20,7 @@
 
   - provide alternative implementations to your modules when in different environments
    - stub io bound modules in a unit testing environment
-   - run integration tests against alternative implementations; for example alternative data stores
+   - run integration tests against alternative implementations; for example an in-memory data stores
    - simplify development and debugging by providing stubbed out io bound modules
   - re-use tests by running the same test as a unit or integration test by simply setting process.env.NODE_ENV to
     for example 'unit' or 'integration'
